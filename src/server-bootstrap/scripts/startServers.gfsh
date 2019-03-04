@@ -1,5 +1,4 @@
-sh pwd
 start locator --name=locator1 --dir=tmp/locator1
-start server --name=gemfire-server1 --properties-file=config/gemfire-server.properties --server-port=0 --dir=tmp/gemfire-server1
+start server --name=gemfire-server1 --properties-file=config/gemfire-server.properties --dir=tmp/gemfire-server1
 start server --name=gemfire-server2 --properties-file=config/gemfire-server.properties --server-port=0 --dir=tmp/gemfire-server2
 start server --name=gemfire-server3 --properties-file=config/gemfire-server.properties --server-port=0 --dir=tmp/gemfire-server3

@@ -1,13 +1,15 @@
 package io.pivotal.pcc.pccclient.controllers;
 
-import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
-import org.springframework.boot.actuate.endpoint.web.annotation.RestControllerEndpoint;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import io.pivotal.pcc.pccclient.service.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-@RestControllerEndpoint(id = "/say")
+@RestController
 public class Controller {
+
+
+    @Autowired
+    ServiceImpl service;
 
     @GetMapping("/hello")
     public String sayHello(){
@@ -19,8 +21,17 @@ public class Controller {
         return "Loading bytes";
     }
 
-    @PostMapping("/loadEntries")
-    public String loadEntries(){
-        return "Loading Entries";
+    @PutMapping(path = "/customer/loadEntries/{count}")
+    public String loadEntries(@PathVariable int count) {
+        System.out.printf("$$$$ Loading %d entries now into Customer region", count);
+        service.loadCustomerEntries(count);
+        return String.format("Done Loading %d entries into Customer region", count);
+    }
+
+    @PutMapping(path = "/customer/loadBytes/{bytes}")
+    public String loadEntries(@PathVariable String bytes) {
+        System.out.printf("$$$$ Loading %s of data into Customer region", bytes);
+        service.loadCustomerBytes(bytes);
+        return String.format("Done Loading %s of data into Customer region", bytes);
     }
 }

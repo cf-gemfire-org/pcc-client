@@ -20,6 +20,11 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>org.springframework.geode</groupId>
+			<artifactId>spring-gemfire-starter</artifactId>
+			<version>1.0.0.BUILD-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
@@ -37,6 +42,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.20</version>
 		</dependency>
 	</dependencies>
 

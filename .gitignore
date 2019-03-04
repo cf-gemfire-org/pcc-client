@@ -23,6 +23,7 @@
 hs_err_pid*
 
 .idea/
+target/
 .DS_Store
 *.iml
 src/server-bootstrap/scripts/tmp/
