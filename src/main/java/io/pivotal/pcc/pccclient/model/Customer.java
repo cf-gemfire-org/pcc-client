@@ -13,6 +13,10 @@ import org.springframework.data.gemfire.mapping.annotation.Region;
 @ToString(exclude = {"profilePic"})
 public class Customer {
 
+    public Customer(Integer id) {
+        this.id = id;
+    }
+
     @Id
     @NonNull
     Integer id;
