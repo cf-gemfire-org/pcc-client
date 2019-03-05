@@ -24,8 +24,7 @@ public class Controller {
     @PutMapping(path = "/customer/loadEntries/{count}")
     public String loadEntries(@PathVariable int count) {
         System.out.printf("$$$$ Loading %d entries now into Customer region", count);
-        service.loadCustomerEntries(count);
-        return String.format("Done Loading %d entries into Customer region", count);
+        return service.loadCustomerEntries(count);
     }
 
     @PutMapping(path = "/customer/loadBytes/{bytes}")
@@ -33,5 +32,12 @@ public class Controller {
         System.out.printf("$$$$ Loading %s of data into Customer region", bytes);
         service.loadCustomerBytes(bytes);
         return String.format("Done Loading %s of data into Customer region", bytes);
+    }
+
+    @DeleteMapping(path = "/customer/remove/{count}")
+    public String removeEntries(@PathVariable int count){
+        System.out.printf("$$$$ Removing %d entries from Customer region", count);
+        service.removeEntries(count);
+        return String.format("Done removing %d entries from Customer region", count);
     }
 }
