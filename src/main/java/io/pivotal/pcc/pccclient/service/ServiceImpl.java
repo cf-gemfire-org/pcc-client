@@ -3,12 +3,13 @@ package io.pivotal.pcc.pccclient.service;
 import io.pivotal.pcc.pccclient.model.Customer;
 import io.pivotal.pcc.pccclient.repositories.CustomerRepository;
 import io.pivotal.pcc.pccclient.util.BatchHelper;
+import org.apache.geode.cache.Region;
 import org.apache.geode.cache.client.ClientCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ServiceImpl {
@@ -32,45 +33,48 @@ public class ServiceImpl {
 
 
     public void removeEntries(int count) {
-        customerRepository.deleteAll();
+        Region<Integer, Object> region = clientCache.getRegion("Customer");
+        Set<Integer> keys = region.keySetOnServer();
+        region.removeAll((keys.stream().limit(count).collect(Collectors.toList())));
     }
 
-    private void operateBatch(int count, Operation operation){
+    private void operateBatch(int count, Operation operation) {
 
         int batchSize = batchHelper.getBatchSize(count);
-        int id = 0;
 
-        for (int i = 0; i < BatchHelper.NUM_BATCHES; i++) {
-            id = operateOneBatch(operation, batchSize, id);
+        for (int i = 0; i < BatchHelper.NUM_BATCHES && i < count; i++) {
+            operateOneBatch(operation, batchSize);
         }
 
         int reminder = count - (batchSize * BatchHelper.NUM_BATCHES);
         if (reminder > 0) {
-            operateOneBatch(operation, reminder, id);
+            operateOneBatch(operation, reminder);
         }
 
     }
 
-    private int operateOneBatch(Operation operation, int batchSize, int id) {
+    private void operateOneBatch(Operation operation, int batchSize) {
         List<Customer> customers = new ArrayList<>(batchSize);
-        for (int j = 0; j < batchSize; j++) {
-            if (operation.equals(Operation.ADD)){
-                customers.add(Customer.of(id, ("name" + id), id, new byte[BatchHelper.ONE_BYTE]));
-            }else{
-                customers.add(new Customer(id));
+        int reservedMaxKey = batchHelper.claimKeys(batchSize);
+        int startKey = reservedMaxKey - batchSize;
+        for (int j = startKey + 1; j <= reservedMaxKey; j++) {
+            if (operation.equals(Operation.ADD)) {
+                customers.add(Customer.of(j, ("name" + j), j, new byte[BatchHelper.ONE_BYTE]));
+            } else {
+                customers.add(new Customer(j));
             }
-            id++;
         }
 
-        if(operation.equals(Operation.ADD)){
+        if (operation.equals(Operation.ADD)) {
             customerRepository.saveAll(customers);
-        }else{
+        } else if (operation.equals(Operation.REMOVE)) {
             customerRepository.deleteAll(customers);
         }
-        return id;
+        System.out.println("PROCESSED BATCH");
+
     }
 
-    enum Operation{
+    enum Operation {
         ADD, REMOVE
     }
 }

@@ -10,4 +10,5 @@
     <region name="Customer" refid="PARTITION">
     </region>
 
+    <region name="CustomerCounter" refid="PARTITION"/>
 </cache>
