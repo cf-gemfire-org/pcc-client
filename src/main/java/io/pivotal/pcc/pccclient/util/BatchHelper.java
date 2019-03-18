@@ -9,15 +9,33 @@ import org.springframework.stereotype.Component;
 @Component
 public class BatchHelper {
 
-    public static final int ONE_BYTE = 1;
     public static final int ONE_KB = 1000;
-    public static final int ONE_MB = 1000 * ONE_KB;
 
     public static final int NUM_BATCHES = 5;
 
     private final String CURRENT_MAX_KEY = "maxKey";
 
     public static final String CUSTOMER_COUNTER_LOCK = "Customer_Counter_Lock";
+
+    public static int numberOfEntriesFor(int value, UNIT unit) {
+
+        switch (unit) {
+            case KB:
+                return value;
+            case MB:
+                return value * 1000;
+            case GB:
+                return value * 1000 * 1000;
+            default:
+                throw new IllegalArgumentException("Invalid unit for data size");
+        }
+    }
+
+    public enum UNIT {
+        KB,
+        MB,
+        GB,
+    }
 
     public int getBatchSize(int count) {
         if (count < 100) return 1;

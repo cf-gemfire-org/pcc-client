@@ -16,11 +16,6 @@ public class Controller {
         return "Hello THere";
     }
 
-    @PostMapping("/loadBytes")
-    public String loadBytes(){
-        return "Loading bytes";
-    }
-
     @PutMapping(path = "/customer/loadEntries/{count}")
     public String loadEntries(@PathVariable int count) {
         System.out.printf("$$$$ Loading %d entries now into Customer region", count);
@@ -28,7 +23,7 @@ public class Controller {
     }
 
     @PutMapping(path = "/customer/loadBytes/{bytes}")
-    public String loadEntries(@PathVariable String bytes) {
+    public String loadBytes(@PathVariable String bytes) {
         System.out.printf("$$$$ Loading %s of data into Customer region", bytes);
         service.loadCustomerBytes(bytes);
         return String.format("Done Loading %s of data into Customer region", bytes);
