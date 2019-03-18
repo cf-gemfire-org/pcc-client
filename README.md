@@ -55,7 +55,9 @@ http://localhost:8080/customer/remove/50
 - Do a `cf push`
 - Hit the below endpoints, change the hostname part of the url based on your app route
   
-  http://pcc-client.apps.etna.cf-app.com/customer/loadEntries/300000
+  http://pcc-client.apps.etna.cf-app.com/customer/loadEntries/300000 --> To load n number of entries each of size 100KB.
   
-  http://pcc-client.apps.etna.cf-app.com/customer/remove/1000000
+  http://pcc-client.apps.etna.cf-app.com/customer/loadBytes/100mb --> To load specific bytes (ex 500kb, 500mb, 1gb).
+  
+  http://pcc-client.apps.etna.cf-app.com/customer/remove/1000000 --> remove n number of entries from customer region.
 
