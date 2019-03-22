@@ -3,8 +3,10 @@ applications:
   - name: pcc-client
     path: target/pcc-client-0.0.1-SNAPSHOT.jar
     buildpack: java_buildpack_offline
+    memory: 2G
+    instances: 3
     services:
-      - dev-instance
+      - es
     env:
       SPRING_PROFILES_ACTIVE:
 
