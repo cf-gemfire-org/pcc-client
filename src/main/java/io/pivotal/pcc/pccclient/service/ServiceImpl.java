@@ -26,7 +26,7 @@ public class ServiceImpl {
 
     public String loadCustomerEntries(int count) {
         operateBatch(count, Operation.ADD);
-        return String.format("Loaded %d customers", count);
+        return String.format("Done loading %d into Customer region", count);
     }
 
     public void loadCustomerBytes(String input) {

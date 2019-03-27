@@ -26,7 +26,7 @@ public class Controller {
     public String loadBytes(@PathVariable String bytes) {
         System.out.printf("$$$$ Loading %s of data into Customer region", bytes);
         service.loadCustomerBytes(bytes);
-        return String.format("Done Loading %s of data into Customer region", bytes);
+        return String.format("Done Loading %s into Customer region", bytes);
     }
 
     @DeleteMapping(path = "/customer/remove/{count}")
