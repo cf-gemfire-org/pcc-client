@@ -5,8 +5,6 @@ applications:
     buildpack: java_buildpack_offline
     memory: 2G
     instances: 3
-    services:
-      - es
     env:
       SPRING_PROFILES_ACTIVE:
 
